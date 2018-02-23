@@ -1,6 +1,4 @@
-import java.util.stream.Collectors
-
-group 'az.deviation.compute'
+group 'com.github.alexzam.deviation.compute'
 version '0.1-SNAPSHOT'
 
 buildscript {
@@ -15,6 +13,7 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
+apply plugin: 'maven-publish'
 
 repositories {
     mavenCentral()

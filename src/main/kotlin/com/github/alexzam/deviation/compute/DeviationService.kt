@@ -5,13 +5,27 @@ class DeviationService {
 
     @Suppress("MemberVisibilityCanPrivate")
     fun calcDeviation(boat: BoatFeatures, course: Double): Double {
-        val devC = boat.phi - course
+        val devC = boat.phi + course
         val sinDevC = Math.sin(devC)
         val cosDevC = Math.cos(devC)
         val xNorth = boat.r * cosDevC + 1
         val yNorth = boat.r * sinDevC
 
         return Math.atan2(yNorth, xNorth) + boat.b
+    }
+
+    fun norm(a: Double): Double {
+        var ret = a
+        while (ret < 0) ret += 2 * Math.PI
+        while (ret > 2 * Math.PI) ret -= 2 * Math.PI
+        return ret
+    }
+
+    fun magneticCourseToCompass(boat: BoatFeatures, course: Double): Double = course - calcDeviation(boat, course)
+
+    fun compassCourseToMagnetic(boat: BoatFeatures, course: Double): Double {
+        val s = Math.sin(boat.phi + course + boat.b)
+        return Math.asin(boat.r * s) + course + boat.b
     }
 
     fun learnDeviation(dataSet: DataSet, iterations: Int = 100, alpha: Double = 0.1, lambda: Double = 0.1,
